@@ -1,0 +1,50 @@
+﻿<Window x:Class="OOO_SportProducts.View.CatalogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OOO_SportProducts.View"
+        mc:Ignorable="d"
+       Title="Авторизация" Height="450" Width="800" Icon="D:\demo\Project\OOO_SportProducts\OOO_SportProducts\Resources/icon.ico" MinHeight="400" MinWidth="600" >
+    <Grid>
+
+        <Grid x:Name="gridMaket">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Заголовок-->
+            <Grid Grid.Row="0" Background="#FFFFCC9B">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="D:\demo\Project\OOO_SportProducts\OOO_SportProducts\Resources/logo.png" Margin="5"/>
+                <TextBlock Text="Авторизация"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource Title}"/>
+              </Grid>
+            
+            <!--Функциональная часть-->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                  
+                    <RowDefinition Height="0.3*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.3*"/>
+                   
+                </Grid.RowDefinitions>
+
+                <ListBox Name="listboxProducts" Grid.Row="1">
+                    
+                    
+                </ListBox>
+
+                <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>-->
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

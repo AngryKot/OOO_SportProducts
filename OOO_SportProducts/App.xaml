@@ -4,14 +4,15 @@
              xmlns:local="clr-namespace:OOO_SportProducts"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style x:Key="Title">
+        <Style x:Key ="Title">
             <Setter Property="Control.FontFamily" Value="Comic Sans MS"/>
-            <Setter Property="Control.FontSize" Value="24"/>
-
-
+            <Setter Property="Control.FontSize" Value="20"/>
         </Style>
-            
-          
+        <Style x:Key="Normal">
+            <Setter Property="Control.FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Control.FontSize" Value="16"/>
+        </Style>
+
 
     </Application.Resources>
 </Application>

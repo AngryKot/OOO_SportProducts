@@ -5,26 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OOO_SportProducts"
         mc:Ignorable="d"
-        Title="Авторизация" Height="450" Width="800" Icon="Resourses/icon.ico" MinHeight="450" MinWidth="800">
-    <Grid>
+        xmlns:easy="clr-namespace:EasyCaptcha.Wpf;assembly=EasyCaptcha.Wpf"
+        
+            Title="Авторизация" Height="450" Width="800" Icon="Resources/icon.ico" MinHeight="400" MinWidth="600" Loaded="Window_Loaded">
+    <Grid x:Name="gridMaket">
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--Заголовок-->
-        <Grid Grid.Row="0" Background="#FFFFCC98">
+        <Grid Grid.Row="0" Background="#FFFFCC9B">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Source="Resourses/logo.png" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Column="1" Text="Авторизация"  VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource Title}" />
-            <Button Name="but_navigation" Grid.Column="2" Background="#FFCC6600" Content="Выход" Margin="15"
-                    Style="{StaticResource Title}"/>
+            <Image Grid.Column="0" Source="Resources/logo.png" Margin="5"/>
+            <TextBlock Text="Авторизация"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource Title}"/>
+            <Button Name="butNavigation" Grid.Column="2" Background="#FFCC6600" Content="Выход" Margin="15" Style="{StaticResource Title}" Foreground="White" Click="butNavigation_Click"/>
         </Grid>
-
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.3*"/>
@@ -33,11 +33,31 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="0.3*"/>
             </Grid.RowDefinitions>
+            
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400*"/>
-                <ColumnDefinition Width="400*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-
+            
+            <TextBlock Text="Логин:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="15" Style="{StaticResource Normal}"/>
+            
+            <TextBlock Text="Пароль:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="15" Style="{StaticResource Normal}"/>
+            
+            <TextBox Name="tbLogin" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" Width="254" Style="{StaticResource Normal}" />
+            
+            <PasswordBox Name="tbPassword" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" Width="254" Style="{StaticResource Normal}" />
+            
+            <TextBox Name="tbPasswordDisplay" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" Width="254" Style="{StaticResource Normal}" Visibility="Collapsed" />
+            
+            <Button Name="butGuest" Grid.Column="0" Grid.Row="3" Background="#FFCC6600" Content="Гость" Margin="221,51,15,6" Style="{StaticResource Normal}" Foreground="White" Click="butGuest_Click"/>
+            
+            <Button Name="butEnter" Grid.Column="1" Grid.Row="3" Background="#FFCC6600" Content="Войти" Margin="15,51,200,6" Style="{StaticResource Normal}" Foreground="White" Click="butEnter_Click"/>
+            
+            <CheckBox x:Name="isVisiblePassword" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="286,0,0,0" Checked="isVisiblePassword_Checked" Unchecked="isVisiblePassword_Unchecked"/>
+            
+            <easy:Captcha x:Name="captcha"  Height="40" Width="200" Grid.Row ="2" Grid.Column="0"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,59" Grid.RowSpan="2"/>
+            
+            <TextBox Name="CaptchaEnter" Grid.Column="1" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,8,0,0" Width="254" Style="{StaticResource Normal}" />
         </Grid>
     </Grid>
 </Window>

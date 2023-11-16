@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace OOO_SportProducts
 {
@@ -22,7 +23,8 @@ namespace OOO_SportProducts
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        DispatcherTimer timer = new DispatcherTimer();
+        private bool isFirst = true;
         string captchaText;
         public MainWindow()
         {
@@ -76,9 +78,74 @@ namespace OOO_SportProducts
         /// <param name="e"></param>
         private void butEnter_Click(object sender, RoutedEventArgs e)
         {
+
+
+
             string login = tbLogin.Text;
             string password = tbPassword.Password;
+
             StringBuilder sb = new StringBuilder();
+            if (String.IsNullOrEmpty(login))
+            {
+                sb.AppendLine("Вы забыли ввести логин");
+            }
+            if (String.IsNullOrEmpty(password))
+            {
+                sb.AppendLine("Вы забыли ввести пароль");
+            }
+            if (!isFirst)
+            {
+                if (CaptchaEnter.Text != captchaText)
+                {
+                    sb.AppendLine("Каптча введена неверно");
+                    //MessageBox.Show(captcha.CaptchaText);
+                }
+            }
+            //поиск в бд пользователя с таким логином и паролем
+
+            if (sb.Length == 0)
+            {
+                List<Model.User> user = new List<Model.User>();
+                //получить все данные их таблицы
+                //users = Helper.DB.User.ToList();
+                user = Helper.dBSportEntities.User.Where(u => u.UserLogin == login && u.UserPassword == password).ToList();
+                //Model.User user = users.FirstOrDefault();
+                Helper.User = user.FirstOrDefault();
+                if (Helper.User != null)
+                {
+                    sb.AppendLine("Здравствуйте " + Helper.User.UserFullName);
+                    sb.AppendLine("Вы вошли с ролью " + Helper.User.Role.RoleName);
+                    MessageBox.Show(sb.ToString());
+                    goCatalog();
+                }
+                else
+                {
+                    sb.AppendLine("Такой пользователь не зарегистрирован");
+                }
+
+
+                if (sb.Length > 0)
+                {
+                    MessageBox.Show(sb.ToString());
+                    if (isFirst)
+                    {
+                        captcha.Visibility = Visibility.Visible;
+                        CaptchaEnter.Visibility = Visibility.Visible;
+                    }
+                    if (!isFirst)
+                    {
+                        CaptchaEnter.IsEnabled = false;
+                        captcha.CreateCaptcha(Captcha.LetterOption.Alphanumeric, 4);
+                        captchaText = captcha.CaptchaText;  //Сохранение строки каптчи
+                        timer.Tick += new EventHandler(TimerTick);
+                        timer.Interval = new TimeSpan(40000000);
+                        timer.Start();
+                    }
+                    isFirst = false;
+                    return;
+                }
+            }
+               
             if (String.IsNullOrEmpty(login))
             {
                 sb.AppendLine("Вы забыли ввести логин");
@@ -118,9 +185,16 @@ namespace OOO_SportProducts
             else
             {
                 MessageBox.Show("Вход не выполнен. Попробуйте еще раз.");
+            
             }
 
+        }
 
+        private void TimerTick(object sender, EventArgs e)
+        {
+            butEnter.IsEnabled = true;
+            timer.Stop();
+            CaptchaEnter.IsEnabled = true;
         }
 
         private void isVisiblePassword_Checked(object sender, RoutedEventArgs e)
@@ -139,14 +213,26 @@ namespace OOO_SportProducts
             tbPassword.Visibility = Visibility.Visible;
         }
 
+
+        private void goCatalog()
+        {
+            View.CatalogWindow catalog = new View.CatalogWindow();
+            this.Hide();
+            catalog.ShowDialog();
+            this.Show();
+        }
+
         /// <summary>
         /// Переход в каталог для гостя
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
         private void butGuest_Click(object sender, RoutedEventArgs e)
         {
-
+           
+                goCatalog();
+            
         }
     }
 }

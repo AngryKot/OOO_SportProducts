@@ -71,6 +71,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Helper.cs" />
+    <Compile Include="Classes\ProductExtended.cs" />
+    <Compile Include="Classes\ProductInOrder.cs" />
     <Compile Include="Model\Category.cs">
       <DependentUpon>ModelSportProduct.tt</DependentUpon>
     </Compile>

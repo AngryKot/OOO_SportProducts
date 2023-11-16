@@ -12,6 +12,6 @@ namespace OOO_SportProduct.Classes
          public static OOO_SportProducts.Model.DBsport403Entities dBSportEntities { get; set; } //доступное свойство связи с бд
 
         //Доступное свойство пользователя системы
-        public static OOO_SportProducts.Model.User user { get; set; }
+        public static OOO_SportProducts.Model.User User { get; set; }
     }
 }

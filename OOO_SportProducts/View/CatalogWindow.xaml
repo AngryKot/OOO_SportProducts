@@ -4,47 +4,105 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OOO_SportProducts.View"
-        mc:Ignorable="d"
-       Title="Авторизация" Height="450" Width="800" Icon="D:\demo\Project\OOO_SportProducts\OOO_SportProducts\Resources/icon.ico" MinHeight="400" MinWidth="600" >
+               mc:Ignorable="d"
+        Title="Каталог" Height="450" Width="1000" Icon="/Resources/icon.ico" MinHeight="400" MinWidth="1000" Loaded="Window_Loaded"
+        >
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Grid x:Name="gridMaket">
+        <!--Заголовок-->
+        <Grid Grid.Row="0" Background="#FFFFCC9B">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" Source="/Resources/logo.png" Margin="5"/>
+            <TextBlock Text="Каталог товаров"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource Title}"/>
+            <Button x:Name="buttonNavigation" Grid.Column="2" Background="#FFCC6600" Content="Назад" Margin="15" Style="{StaticResource Title}" Foreground="White" Click="buttonNavigation_Click" />
+        </Grid>
+        <!--Функциональная часть-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="0.2*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="0.3*"/>
             </Grid.RowDefinitions>
 
-            <!--Заголовок-->
-            <Grid Grid.Row="0" Background="#FFFFCC9B">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="D:\demo\Project\OOO_SportProducts\OOO_SportProducts\Resources/logo.png" Margin="5"/>
-                <TextBlock Text="Авторизация"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource Title}"/>
-              </Grid>
-            
-            <!--Функциональная часть-->
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                  
-                    <RowDefinition Height="0.3*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="0.3*"/>
-                   
-                </Grid.RowDefinitions>
+            <TextBlock x:Name="tbCount" Text="Количество:" Style="{StaticResource Normal}"/>
+            <!--лево - список товаров-->
+            <ListBox x:Name="listBoxProducts"  Grid.Row="1" Grid.Column="0">
+                
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Name="MenuItemAdd" Header="Добавить в корзину" Visibility="Hidden"></MenuItem>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="500"/>
+                                <ColumnDefinition Width="400"/>
+                            </Grid.ColumnDefinitions>
 
-                <ListBox Name="listboxProducts" Grid.Row="1">
-                    
-                    
-                </ListBox>
+                            <Image Source="{Binding Path=ProductPhotoPath}" Width="100" Height="100" Stretch="Uniform" Grid.Column="0"/>
 
-                <!--<Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>-->
-            </Grid>
+
+                            <StackPanel Grid.Column="1" Orientation="Vertical">
+                                
+
+                                <TextBlock Text="{Binding Path=Product.ProductArticle}" Visibility="Collapsed"/>
+                                <TextBlock Text="{Binding Path=Product.ProductName}" Style="{StaticResource Title}"/>
+                                <TextBlock Text="{Binding Path=Product.ProductDiscription}" Style="{StaticResource Normal}"/>
+                                <TextBlock Text="{Binding Path=Product.ProductManufacturer, StringFormat=Производитель: {0}}" Style="{StaticResource Normal}"/>
+                                <TextBlock Text="{Binding Path=Product.ProductCost, StringFormat=Цена: {0} руб.}" Style="{StaticResource Normal}" />
+                                <TextBlock Text="{Binding Path=Product.ProductDiscount, StringFormat=Скидка: {0} %}" Style="{StaticResource Normal}"/>
+                                <TextBlock Text="{Binding Path=Product.ProductCostWithDiscount, StringFormat=Цена со скидкой: {0} руб.}" Style="{StaticResource Normal}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Orientation="Vertical">
+                                <TextBlock Text="{Binding Path=Product.ProductCount, StringFormat=Количество на складе: {0} шт.}" Style="{StaticResource Title}"/>
+                            </StackPanel>
+                        </Grid>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!--Право - фильтр-->
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+                <TextBlock Text="Фильтры" Style="{StaticResource Title}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Сортировка по стоимости" Style="{StaticResource Normal}"/>
+                <ComboBox x:Name="cbSort" SelectionChanged="cbSort_SelectionChanged" >
+                    <ComboBoxItem Content="По возрастанию"/>
+                    <ComboBoxItem Content="По убыванию"/>
+                </ComboBox>
+                <TextBlock Text="Фильтрация по скидке" Style="{StaticResource Normal}"/>
+                <ComboBox x:Name="cbFilterDiscount" SelectionChanged="cbFilterDiscount_SelectionChanged">
+                    <ComboBoxItem Content="Все диапазоны"/>
+                    <ComboBoxItem Content="0-9,99%"/>
+                    <ComboBoxItem Content="10-14,99%"/>
+                    <ComboBoxItem Content="15% и более"/>
+                </ComboBox>
+                <TextBlock Text="Фильтрация по категории" Style="{StaticResource Normal}"/>
+                <ComboBox x:Name="cbFilterCategory" SelectionChanged="cbFilterCategory_SelectionChanged">
+
+                </ComboBox>
+                <TextBlock Text="Поиск по названию" Style="{StaticResource Normal}"/>
+                <TextBox x:Name="tbSearch" Style="{StaticResource Normal}" TextChanged="tbSearch_TextChanged"/>
+
+            </StackPanel>
         </Grid>
+
     </Grid>
 </Window>
